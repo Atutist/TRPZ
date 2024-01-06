@@ -1,0 +1,277 @@
+
+body{
+
+    background-image: url("../images/darkbackground.png");
+     /*background-color: #1f2029;*/
+    /*background-size: cover;*/
+    /*background-position: center center;*/
+}
+
+a{
+    text-decoration: none;
+    color: #07848b;
+}
+a:hover{
+    text-decoration: underline;
+}
+.main{
+    margin-top: 2vw;
+    margin-left: 23vw;
+}
+
+.main h2{
+    color: antiquewhite;
+}
+
+/*==Sidebar==*/
+.sidenav {
+    height: 100%;
+    width: 20vw;
+    margin-top: 2vw;
+    position: fixed;
+    background-color: #17171a;
+    overflow-x: hidden;
+    padding-top: 20px;
+}
+.sidenav a{
+    padding: 6px 8px 6px 16px;
+}
+/*==Header==*/
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 5vw;
+    padding: 0 15px;
+    background-color: #17171a;
+    margin: -1vw;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+}
+
+.nav-item {
+    text-decoration: none;
+    color: antiquewhite;
+    margin-right: 10px;
+}
+
+.nav-item:last-child {
+    margin-right: 0;
+}
+
+.nav-item a {
+    text-decoration: none;
+    color: antiquewhite;
+}
+
+.nav-item:hover{
+    text-decoration-line: underline;
+}
+
+/*==Video redact*/
+.video-background {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
+    z-index: -100;
+}
+
+.video-foreground {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -1;
+    /*background: rgba(0, 0, 0, 0.9); !important;*/
+}
+
+video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 100%;
+    height: auto;
+}
+
+.content {
+    position: relative;
+    z-index: 1;
+    padding: 20px;
+    text-align: center;
+    color: white;
+}
+/*===Form Style*/
+.background{
+    width: 430px;
+    height: 520px;
+    position: absolute;
+    transform: translate(-50%,-50%);
+    left: 50%;
+    top: 50%;
+}
+.background .shape{
+    height: 200px;
+    width: 200px;
+    position: absolute;
+    border-radius: 50%;
+}
+.shape:first-child{
+    background: linear-gradient(
+            #1845ad,
+            #23a2f6
+    );
+    left: -80px;
+    top: -80px;
+}
+.shape:last-child{
+    background: linear-gradient(
+            to right,
+            #ff512f,
+            #f09819
+    );
+    right: -30px;
+    bottom: -80px;
+}
+.input-form {
+    min-height: 20vw;
+    width: 40vw;
+    background-color: rgba(255,255,255,0.13);
+    position: absolute;
+    transform: translate(-50%,-50%);
+    top: 50%;
+    left: 50%;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255,255,255,0.1);
+    box-shadow: 0 0 40px rgba(8,7,16,0.6);
+    padding: 50px 35px;
+}
+
+.input-form * {
+    font-family: 'Poppins', sans-serif;
+    color: #ffffff;
+    letter-spacing: 0.5px;
+    outline: none;
+    border: none;
+}
+
+.input-form h3 {
+    font-size: 32px;
+    font-weight: 500;
+    line-height: 42px;
+    text-align: center;
+}
+
+.input-form label {
+    display: block;
+    margin-top: 30px;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.input-form input {
+    display: block;
+    height: 50px;
+    width: 100%;
+    background-color: rgba(255,255,255,0.07);
+    border-radius: 3px;
+    padding: 0 10px;
+    margin-top: 8px;
+    font-size: 14px;
+    font-weight: 300;
+}
+
+.input-form ::placeholder {
+    color: #e5e5e5;
+}
+
+.input-form button {
+    margin-top: 3vw;
+    width: 100%;
+    background-color: #ffffff;
+    color: #080710;
+    padding: 15px 0;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.input-form select {
+    display: block;
+    height: 50px;
+    width: 100%;
+    background-color: rgba(255,255,255,0.07);
+    border-radius: 3px;
+    padding: 0 10px;
+    margin-top: 8px;
+    font-size: 14px;
+    font-weight: 300;
+    color: #e5e5e5;
+    border: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+.input-form select option {
+    background-color: rgba(36, 36, 36, 0.9);
+    color: #e5e5e5;
+}
+
+
+.input-form select option:checked {
+    background: rgba(55, 55, 55, 0.9);
+    color: white;
+}
+.input-form select:focus {
+    outline: none;
+}
+
+/*==Table==*/
+table {border-collapse: collapse; font-family: helvetica}
+.table-container {
+    position: relative;
+    max-height:  40vw;
+    overflow-y: scroll;
+}
+td, th {border:  1px solid;
+    padding: 10px;
+    min-width: 2vw;
+    background: white;
+    box-sizing: border-box;
+    text-align: left;
+}
+
+thead th:first-child {
+    left: 0;
+    z-index: 3;
+}
+
+tfoot {
+    bottom: 0;
+    z-index: 2;
+}
+
+tfoot td {
+    position: sticky;
+    bottom: 0;
+    z-index: 2;
+    background: hsl(20, 50%, 70%);
+}
+
+tfoot td:first-child {
+    z-index: 3;
+}
+
+tbody {
+    overflow: scroll;
+    height: 200px;
+}
+
