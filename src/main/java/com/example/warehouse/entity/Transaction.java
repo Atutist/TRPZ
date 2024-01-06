@@ -36,4 +36,47 @@ public class Transaction {
 
     @JoinColumn(name = "username", nullable = false)
     private String username;
+    protected Transaction() { }
+
+    public static class Builder {
+        private final Transaction transaction;
+
+        public Builder() {
+            transaction = new Transaction();
+        }
+
+        public Builder setType(String type) {
+            transaction.type = type;
+            return this;
+        }
+
+        public Builder setMaterial(Material material) {
+            transaction.material = material;
+            return this;
+        }
+
+        public Builder setProduct(Product product) {
+            transaction.product = product;
+            return this;
+        }
+
+        public Builder setAmount(Double amount) {
+            transaction.amount = amount;
+            return this;
+        }
+
+        public Builder setDateTime(LocalDateTime dateTime) {
+            transaction.dateTime = dateTime;
+            return this;
+        }
+
+        public Builder setUsername(String username) {
+            transaction.username = username;
+            return this;
+        }
+
+        public Transaction build() {
+            return transaction;
+        }
+    }
 }

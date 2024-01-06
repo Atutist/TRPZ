@@ -1,5 +1,6 @@
 package com.example.warehouse.controllers;
 
+import com.example.warehouse.Visitor.ReportingVisitor;
 import com.example.warehouse.entity.User;
 import org.springframework.ui.Model;
 import com.example.warehouse.dto.UserResponse;
@@ -35,15 +36,18 @@ public class AuthorizationController {
                                 HttpSession session,
                                 @RequestParam @NotBlank String username,
                                 @RequestParam @NotBlank String password){
-        Optional<UserResponse> user = authorizationService.checkUser(username, password);
-        if (user.isEmpty()) {
+        Optional<UserResponse> userResponse = authorizationService.checkUser(username, password);
+        if (userResponse.isEmpty()) {
             model.addAttribute("failMessage", "Неправильний логін або пароль");
             model.addAttribute("username", username);
             return "/authorization/login";
         }
-        session.setAttribute("user", user.get());
-
-        return determineRedirect(user.get().getRole());
+        session.setAttribute("user", userResponse.get());
+        UserResponse currentUser = (UserResponse) session.getAttribute("user");
+        User user = userService.findById(currentUser.getId());
+        ReportingVisitor visitor = new ReportingVisitor();
+        user.accept(visitor);
+        return determineRedirect(userResponse.get().getRole());
 
     }
 
@@ -66,6 +70,12 @@ public class AuthorizationController {
 
     @PostMapping("/logout")
     private String logout(HttpSession session) {
+        if (session.getAttribute("user") != null) {
+            UserResponse currentUser = (UserResponse) session.getAttribute("user");
+            User user = userService.findById(currentUser.getId());
+            ReportingVisitor visitor = new ReportingVisitor();
+            visitor.visitUserLogout(user);
+        }
         session.removeAttribute("user");
 
         return "redirect:/";

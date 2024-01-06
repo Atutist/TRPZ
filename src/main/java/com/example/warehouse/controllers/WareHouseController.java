@@ -18,8 +18,6 @@ public class WareHouseController {
     private final RecipeService recipeService;
     private final WareHouseService wareHouseService;
 
-    // Метод для відображення сторінки використання рецепту
-
 
 
     @GetMapping("/worker/issueProduct")

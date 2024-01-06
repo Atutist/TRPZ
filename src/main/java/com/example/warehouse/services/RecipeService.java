@@ -70,7 +70,6 @@ public class RecipeService {
         Recipe recipe = recipeRepository.findById(recipeId)
                 .orElseThrow(() -> new RuntimeException("Recipe not found"));
 
-        // Перевірка наявності достатньої кількості матеріалів
         for (RecipeList recipeList : recipe.getRecipeLists()) {
             Material material = recipeList.getMaterial();
             if (material.getAmount() < recipeList.getMaterialAmount() * amount) {
@@ -78,7 +77,6 @@ public class RecipeService {
             }
         }
 
-        // Оновлення кількості матеріалів
         for (RecipeList recipeList : recipe.getRecipeLists()) {
             Material material = recipeList.getMaterial();
             double newAmount = material.getAmount() - recipeList.getMaterialAmount() * amount;
@@ -86,16 +84,16 @@ public class RecipeService {
             materialRepository.save(material);
         }
 
-        // Створення транзакції
-        Transaction transaction = new Transaction();
-        transaction.setType("PRODUCTION");
-        transaction.setProduct(recipe.getProduct());
-        transaction.setAmount(amount);
-        transaction.setDateTime(LocalDateTime.now());
-        transaction.setUsername(username);
+
+        Transaction transaction = new Transaction.Builder()
+                .setType("RECEIVE")
+                .setProduct(recipe.getProduct())
+                .setAmount(amount)
+                .setDateTime(LocalDateTime.now())
+                .setUsername(username)
+                .build();
         transactionRepository.save(transaction);
 
-        // Оновлення кількості продукції
         Product product = recipe.getProduct();
         product.setAmount(product.getAmount() + amount);
         productRepository.save(product);

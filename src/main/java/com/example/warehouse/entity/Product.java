@@ -26,7 +26,7 @@ public class Product {
 
     @NotNull
     @Column(name ="amount")
-    private Double amount; // Changed to BigDecimal
+    private Double amount; // Changed to BigDecimal?
 
     @OneToMany(mappedBy = "product")
     private Set<Recipe> recipes;

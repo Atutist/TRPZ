@@ -41,13 +41,14 @@ public class WareHouseService {
 
             materialRepository.save(material);
             //===Creating transaction===
-            Transaction transaction = new Transaction();
-            String username = currentUser.getName();
-            transaction.setType("RECEIVE");
-            transaction.setMaterial(material);
-            transaction.setAmount(amount);
-            transaction.setDateTime(LocalDateTime.now());
-            transaction.setUsername(username);
+            Transaction transaction = new Transaction.Builder()
+                    .setType("RECEIVE")
+                    .setMaterial(material)
+                    .setAmount(amount)
+                    .setDateTime(LocalDateTime.now())
+                    .setUsername(String.valueOf(currentUser))
+                    .build();
+
 
             transactionRepository.save(transaction);
         } else {
@@ -76,13 +77,14 @@ public class WareHouseService {
 
         productRepository.save(product);
 
-        // Створення транзакції
-        Transaction transaction = new Transaction();
-        transaction.setType("ISSUE");
-        transaction.setProduct(product);
-        transaction.setAmount(amount);
-        transaction.setDateTime(LocalDateTime.now());
-        transaction.setUsername(currentUser.getName());
+
+        Transaction transaction = new Transaction.Builder()
+                .setType("RECEIVE")
+                .setProduct(product)
+                .setAmount(amount)
+                .setDateTime(LocalDateTime.now())
+                .setUsername(String.valueOf(currentUser))
+                .build();
 
         transactionRepository.save(transaction);
     }

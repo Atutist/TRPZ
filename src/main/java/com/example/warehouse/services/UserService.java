@@ -16,6 +16,7 @@ import java.util.Optional;
 public class UserService {
     private final UserRepository userRepository;
 
+    public User findById (Integer id){ return  userRepository.findById(id); }
     public void createUser(User user){
         userRepository.save(user);
     }

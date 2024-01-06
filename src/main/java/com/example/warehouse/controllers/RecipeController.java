@@ -53,7 +53,7 @@ public class RecipeController {
         return "/worker/production";
     }
 
-    // Метод для обробки запиту на використання рецепту
+
     @PostMapping("/worker/useRecipe")
     public String useRecipe(@RequestParam("productId") Integer productId,
                             @RequestParam("amount") Double amount,
