@@ -1,6 +1,7 @@
 package com.example.warehouse.services;
 
 import com.example.warehouse.entity.*;
+import com.example.warehouse.factories.TransactionFactory;
 import com.example.warehouse.repositories.*;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -20,7 +21,7 @@ public class RecipeService {
     private final ProductRepository productRepository;
     private final RecipeListRepository recipeListRepository;
     private final TransactionRepository transactionRepository;
-    private final JdbcTemplate jdbcTemplate;
+    private final TransactionFactory transactionFactory;
 
     public List<Recipe> getAllRecipes() {
         return recipeRepository.findAll();
@@ -84,18 +85,10 @@ public class RecipeService {
             materialRepository.save(material);
         }
 
-
-        Transaction transaction = new Transaction.Builder()
-                .setType("RECEIVE")
-                .setProduct(recipe.getProduct())
-                .setAmount(amount)
-                .setDateTime(LocalDateTime.now())
-                .setUsername(username)
-                .build();
-        transactionRepository.save(transaction);
-
         Product product = recipe.getProduct();
         product.setAmount(product.getAmount() + amount);
+        Transaction transaction = transactionFactory.createTransaction("ISSUE", amount, username, null, product);
+        transactionRepository.save(transaction);
         productRepository.save(product);
     }
 

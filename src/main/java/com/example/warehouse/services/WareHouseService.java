@@ -5,6 +5,7 @@ import com.example.warehouse.entity.Material;
 import com.example.warehouse.entity.Product;
 import com.example.warehouse.entity.Transaction;
 import com.example.warehouse.entity.User;
+import com.example.warehouse.factories.TransactionFactory;
 import com.example.warehouse.repositories.MaterialRepository;
 import com.example.warehouse.repositories.ProductRepository;
 import com.example.warehouse.repositories.TransactionRepository;
@@ -26,7 +27,7 @@ public class WareHouseService {
     private final MaterialRepository materialRepository;
     private final ProductRepository productRepository;
     private final TransactionRepository transactionRepository;
-    private final UserRepository userRepository;
+    private final TransactionFactory transactionFactory;
 
     //==Receiving products==
     public void receiveMaterial(Integer materialId, Double amount, UserResponse currentUser){
@@ -41,15 +42,7 @@ public class WareHouseService {
 
             materialRepository.save(material);
             //===Creating transaction===
-            Transaction transaction = new Transaction.Builder()
-                    .setType("RECEIVE")
-                    .setMaterial(material)
-                    .setAmount(amount)
-                    .setDateTime(LocalDateTime.now())
-                    .setUsername(String.valueOf(currentUser))
-                    .build();
-
-
+            Transaction transaction = transactionFactory.createTransaction("RECEIVE", amount, currentUser.getName(), material, null);
             transactionRepository.save(transaction);
         } else {
 
@@ -77,15 +70,7 @@ public class WareHouseService {
 
         productRepository.save(product);
 
-
-        Transaction transaction = new Transaction.Builder()
-                .setType("RECEIVE")
-                .setProduct(product)
-                .setAmount(amount)
-                .setDateTime(LocalDateTime.now())
-                .setUsername(String.valueOf(currentUser))
-                .build();
-
+        Transaction transaction = transactionFactory.createTransaction("ISSUE", amount, currentUser.getName(), null, product);
         transactionRepository.save(transaction);
     }
 
