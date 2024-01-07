@@ -3,7 +3,7 @@
 <html>
 <head>
     <link rel="stylesheet" type="text/css" href="/style/style.css">
-    <title>Login</title>
+    <title>Access denied</title>
 </head>
 <body>
 <jsp:include page="../header.jsp" />

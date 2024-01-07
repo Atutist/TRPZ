@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
-    <title>Реєстрація</title>
+    <title> Operation with User</title>
     <link rel="stylesheet" type="text/css" href="/style/style.css">
 <%--    <link rel="stylesheet" type="text/css" href="../../../css/default.css">--%>
 <%--    <link rel="stylesheet" type="text/css" href="../../../css/authorization.css">--%>
