@@ -9,7 +9,11 @@ import java.time.LocalDateTime;
 
 public class IssueProductTransactionFactory  implements TransactionFactory {
     @Override
-    public Transaction createTransaction(String type, Double amount, String username, Material material, Product product) {
+    public Transaction createTransaction(String type,
+                                         Double amount,
+                                         String username,
+                                         Material material,
+                                         Product product) {
         return new Transaction.Builder()
                 .setType("ISSUE")
                 .setProduct(product)

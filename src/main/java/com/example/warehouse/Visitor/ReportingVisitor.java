@@ -10,17 +10,17 @@ public class ReportingVisitor implements UserVisitor {
 
     @Override
     public void visitAdmin(User user) {
-        logger.info("Admin: " + user.getUsername() + " is viewing admin page.");
+        logger.info("User: " + user.getUsername() + " is viewing admin page.");
     }
 
     @Override
     public void visitWarehouseWorker(User user) {
-        logger.info("Warehouse Worker: " + user.getUsername() + " is managing warehouse operations.");
+        logger.info("User: " + user.getUsername() + " is managing warehouse operations.");
     }
 
     @Override
     public void visitWarehouseManager(User user) {
-        logger.info("Warehouse Manager: " + user.getUsername() + " is working in warehouse system.");
+        logger.info("User: " + user.getUsername() + " is working in warehouse system.");
     }
 
     @Override
