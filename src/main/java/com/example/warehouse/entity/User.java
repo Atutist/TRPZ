@@ -1,7 +1,7 @@
 package com.example.warehouse.entity;
 
-import com.example.warehouse.Visitor.UserVisitor;
-import com.example.warehouse.Visitor.VisitableUser;
+import com.example.warehouse.visitors.UserVisitor;
+import com.example.warehouse.visitors.VisitableUser;
 import com.example.warehouse.enums.Role;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;

@@ -29,11 +29,12 @@
             <label for="productAmount">Кількість:</label>
             <input type="number" id="productAmount" name="amount" required>
         </div>
+        <c:if test="${not empty message}">
+            <div class="message">${message}</div>
+        </c:if>
         <button type="submit">Видати продукцію</button>
     </form>
-    <c:if test="${not empty message}">
-        <div class="message">${message}</div>
-    </c:if>
+
 </div>
 </body>
 </html>

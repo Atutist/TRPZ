@@ -84,7 +84,12 @@ public class UsersController {
                                    @RequestParam @NotBlank String username,
                                    @RequestParam @NotBlank String password,
                                    @RequestParam @NotBlank String reppassword,
-                                   @RequestParam Role role){
+                                   @RequestParam Role role,
+                                   HttpSession session){
+        UserResponse user = (UserResponse) session.getAttribute("user");
+        if( (user == null || !user.getRole().equals(Role.ADMIN))){
+            return "redirect:/accessDenied";
+        }
         //====validation===
         try {
             if (!password.equals(reppassword)){
@@ -113,6 +118,9 @@ public class UsersController {
     @PostMapping("/admin/deleteUser")
     public String deleteUser(@RequestParam("userId") Integer userId, HttpSession session, Model model) {
         UserResponse userResponse = (UserResponse) session.getAttribute("user");
+        if( (userResponse == null || !userResponse.getRole().equals(Role.ADMIN))){
+            return "redirect:/accessDenied";
+        }
         if (userResponse.getId() == userId) {
             model.addAttribute("errorMessage", "Cannot delete currently logged-in user.");
         } else {

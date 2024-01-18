@@ -30,11 +30,12 @@
             <label for="materialAmount">Кількість:</label>
             <input type="number" id="materialAmount" name="amount" required>
         </div>
+        <c:if test="${not empty message}">
+            <div class="message">${message}</div>
+        </c:if>
         <button type="submit">Прийняти матеріал</button>
     </form>
-    <c:if test="${not empty message}">
-        <div class="message">${message}</div>
-    </c:if>
+
 </div>
 </body>
 </html>

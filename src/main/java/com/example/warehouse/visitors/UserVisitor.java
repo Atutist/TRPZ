@@ -1,4 +1,4 @@
-package com.example.warehouse.Visitor;
+package com.example.warehouse.visitors;
 
 import com.example.warehouse.entity.User;
 

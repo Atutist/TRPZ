@@ -238,7 +238,7 @@ video {
 table {border-collapse: collapse; font-family: helvetica}
 .table-container {
     position: relative;
-    max-height:  40vw;
+    max-height:  20vw;
     overflow-y: scroll;
 }
 td, th {border:  1px solid;

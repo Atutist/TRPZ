@@ -2,6 +2,7 @@ package com.example.warehouse.controllers;
 
 import com.example.warehouse.dto.UserResponse;
 import com.example.warehouse.entity.*;
+import com.example.warehouse.enums.Role;
 import com.example.warehouse.services.RecipeService;
 import com.example.warehouse.services.MaterialService;
 import com.example.warehouse.services.ProductService;
@@ -26,7 +27,11 @@ public class RecipeController {
 
 
     @GetMapping("/boss/createNewRecipe")
-    public String createRecipeForm(Model model) {
+    public String createRecipeForm(Model model, HttpSession session) {
+        UserResponse user = (UserResponse) session.getAttribute("user");
+        if( (user == null || !user.getRole().equals(Role.BOSS))){
+            return "redirect:/accessDenied";
+        }
         List<Material> materials = materialService.getAllMaterials();
         model.addAttribute("materials", materials);
         return "/boss/createNewRecipe";
@@ -37,7 +42,11 @@ public class RecipeController {
     public String createRecipe(@RequestParam String name,
                                @RequestParam List<Integer> materialIds,
                                @RequestParam List<Double> materialAmounts,
-                               Model model) {
+                               Model model, HttpSession session) {
+        UserResponse user = (UserResponse) session.getAttribute("user");
+        if( (user == null || !user.getRole().equals(Role.BOSS))){
+            return "redirect:/accessDenied";
+        }
         try {
             recipeService.createRecipe(name, materialIds, materialAmounts);
             model.addAttribute("message", "Рецепт успішно створено.");
@@ -47,7 +56,11 @@ public class RecipeController {
         return "redirect:/boss/createNewRecipe";
     }
     @GetMapping("/worker/production")
-    public String showUseRecipePage(Model model) {
+    public String showUseRecipePage(Model model, HttpSession session) {
+        UserResponse user = (UserResponse) session.getAttribute("user");
+        if( (user == null || !user.getRole().equals(Role.WORKER))){
+            return "redirect:/accessDenied";
+        }
         model.addAttribute("recipes", recipeService.getAllRecipes());
         model.addAttribute("products", productService.getAllProducts());
         return "/worker/production";
@@ -60,8 +73,9 @@ public class RecipeController {
                             Model model, HttpSession session) {
         try {
             UserResponse currentUser = (UserResponse) session.getAttribute("user");
-            if (currentUser == null) {
-                throw new RuntimeException("User not authenticated");
+            UserResponse user = (UserResponse) session.getAttribute("user");
+            if( (user == null || !user.getRole().equals(Role.WORKER))){
+                return "redirect:/accessDenied";
             }
             Recipe recipe = recipeService.getRecipeByProductId(productId);
             if (recipe == null) {
