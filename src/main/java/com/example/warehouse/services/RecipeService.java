@@ -2,6 +2,10 @@ package com.example.warehouse.services;
 
 import com.example.warehouse.entity.*;
 import com.example.warehouse.factories.TransactionFactory;
+import com.example.warehouse.factories.transaction.IssueProductTransactionFactory;
+import com.example.warehouse.factories.transaction.ProductionTransactionFactory;
+import com.example.warehouse.process.IssueProductProcess;
+import com.example.warehouse.process.ProductionProcess;
 import com.example.warehouse.repositories.*;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -21,7 +25,7 @@ public class RecipeService {
     private final ProductRepository productRepository;
     private final RecipeListRepository recipeListRepository;
     private final TransactionRepository transactionRepository;
-    private final TransactionFactory transactionFactory;
+    private final TransactionService transactionService;
 
     public List<Recipe> getAllRecipes() {
         return recipeRepository.findAll();
@@ -85,11 +89,10 @@ public class RecipeService {
             materialRepository.save(material);
         }
 
-        Product product = recipe.getProduct();
-        product.setAmount(product.getAmount() + amount);
-        Transaction transaction = transactionFactory.createTransaction("ISSUE", amount, username, null, product);
-        transactionRepository.save(transaction);
-        productRepository.save(product);
+        ProductionProcess process = new ProductionProcess(
+                amount, username, recipe.getProduct(),
+                new ProductionTransactionFactory(), transactionService); // Use transactionService
+        process.executeTransaction();
     }
 
 

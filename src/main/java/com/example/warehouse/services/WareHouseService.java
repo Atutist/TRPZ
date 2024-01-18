@@ -6,6 +6,10 @@ import com.example.warehouse.entity.Product;
 import com.example.warehouse.entity.Transaction;
 import com.example.warehouse.entity.User;
 import com.example.warehouse.factories.TransactionFactory;
+import com.example.warehouse.factories.transaction.IssueProductTransactionFactory;
+import com.example.warehouse.factories.transaction.ReceiveMaterialTransactionFactory;
+import com.example.warehouse.process.IssueProductProcess;
+import com.example.warehouse.process.ReceiveMaterialProcess;
 import com.example.warehouse.repositories.MaterialRepository;
 import com.example.warehouse.repositories.ProductRepository;
 import com.example.warehouse.repositories.TransactionRepository;
@@ -27,28 +31,27 @@ public class WareHouseService {
     private final MaterialRepository materialRepository;
     private final ProductRepository productRepository;
     private final TransactionRepository transactionRepository;
-    private final TransactionFactory transactionFactory;
-
+    private final TransactionService transactionService;
     //==Receiving products==
+
     public void receiveMaterial(Integer materialId, Double amount, UserResponse currentUser){
         Optional<Material> optionalMaterial = materialRepository.findById(materialId);
-
         if (optionalMaterial.isPresent()) {
-            //==Checking and adding material===
             Material material = optionalMaterial.get();
             Double currentAmount = material.getAmount();
             Double newAmount = currentAmount + amount;
             material.setAmount(newAmount);
-
             materialRepository.save(material);
-            //===Creating transaction===
-            Transaction transaction = transactionFactory.createTransaction("RECEIVE", amount, currentUser.getName(), material, null);
-            transactionRepository.save(transaction);
-        } else {
 
+            ReceiveMaterialProcess process = new ReceiveMaterialProcess(
+                    amount, currentUser.getName(), material,
+                    new ReceiveMaterialTransactionFactory(), transactionService);
+            process.executeTransaction();
+        } else {
             throw new RuntimeException("Material with ID " + materialId + " not found");
         }
     }
+
 
     public void issueProduct(Integer productId, Double amount, UserResponse currentUser) {
         Optional<Product> optionalProduct = productRepository.findById(productId);
@@ -58,20 +61,18 @@ public class WareHouseService {
         }
 
         Product product = optionalProduct.get();
-
-        //=== Do we have enough product ?===
         if (product.getAmount() < amount) {
             throw new RuntimeException("Not enough product in stock");
         }
 
-        //===Logic of taking products out of warehouse==
-        Double newAmount = product.getAmount() - amount;
-        product.setAmount(newAmount);
-
+        product.setAmount(product.getAmount() - amount);
         productRepository.save(product);
 
-        Transaction transaction = transactionFactory.createTransaction("ISSUE", amount, currentUser.getName(), null, product);
-        transactionRepository.save(transaction);
+        IssueProductProcess process = new IssueProductProcess(
+                amount, currentUser.getName(), product,
+                new IssueProductTransactionFactory(), transactionService); // Use transactionService
+        process.executeTransaction();
     }
+
 
 }

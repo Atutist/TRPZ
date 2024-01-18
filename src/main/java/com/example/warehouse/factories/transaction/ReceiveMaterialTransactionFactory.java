@@ -15,7 +15,7 @@ public class ReceiveMaterialTransactionFactory implements TransactionFactory {
                                          Material material,
                                          Product product) {
         return new Transaction.Builder()
-                .setType("RECEIVE")
+                .setType(type)
                 .setMaterial(material)
                 .setAmount(amount)
                 .setDateTime(LocalDateTime.now())

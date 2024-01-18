@@ -38,7 +38,12 @@ public class ManagerController {
 
     @GetMapping("/boss/reports")
     private String viewReports(Model model,
-                               @RequestParam(value = "reportType", required = false) String reportType) {
+                               @RequestParam(value = "reportType", required = false) String reportType,
+                               HttpSession session) {
+        UserResponse user = (UserResponse) session.getAttribute("user");
+        if( (user == null || !user.getRole().equals(Role.BOSS))){
+            return "redirect:/accessDenied";
+        }
         if (reportType == null) {
             reportType = "transaction";
         }

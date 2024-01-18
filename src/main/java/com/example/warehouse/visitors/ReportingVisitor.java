@@ -10,6 +10,7 @@ public class ReportingVisitor implements UserVisitor {
 
     @Override
     public void visitAdmin(User user) {
+
         logger.info("User: " + user.getUsername() + " is viewing admin page.");
     }
 
@@ -25,6 +26,7 @@ public class ReportingVisitor implements UserVisitor {
 
     @Override
     public void visitUserLogout(User user) {
+
         logger.info("User: " + user.getUsername() + " has ended the session.");
     }
 }

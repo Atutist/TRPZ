@@ -15,7 +15,7 @@ public class IssueProductTransactionFactory  implements TransactionFactory {
                                          Material material,
                                          Product product) {
         return new Transaction.Builder()
-                .setType("ISSUE")
+                .setType(type)
                 .setProduct(product)
                 .setAmount(amount)
                 .setDateTime(LocalDateTime.now())
